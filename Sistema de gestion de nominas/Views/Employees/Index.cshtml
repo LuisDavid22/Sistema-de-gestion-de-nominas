@@ -1,0 +1,51 @@
+﻿@model IEnumerable<Sistema_de_gestion_de_nominas.Models.Employee>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Listado de empleados</h1>
+<br />
+<button class="btn btn-primary">@Html.ActionLink("Crear empleado", "Edit", "Employees", new { id = 0 }, new { style = "color:white" })</button>
+@if (Model.Count() == 0)
+{
+    <h3>No hay ningun empleado, @Html.ActionLink("crea uno!", "Edit", "Employees") </h3>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Id</th>
+                <th scope="col">Nombre</th>
+                <th scope="col">Apellido</th>
+                <th scope="col">Sexo</th>
+                <th scope="col">Sueldo bruto</th>
+                <th scope="col">Activo</th>
+                <th scope="col">Opciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var employee in Model)
+            {
+                <tr>
+                    <th>@employee.Id</th>
+                    <td>@employee.Name</td>
+                    <td>@employee.LastName</td>
+                    <td>@employee.Genre</td>
+                    <td>@string.Format("{0:N0}", employee.GrossSalary) </td>
+                    <td>@{var text = employee.Active ? "Si" : "No";} @text </td>
+                    <td><button class="btn btn-warning">@Html.ActionLink("Editar", "Edit", "Employees", new { id = employee.Id }, new { style = "color:white" })</button></td>
+                    <td><button class="btn btn-danger">@Html.ActionLink("Eliminar", "Delete", "Employees", new { id = employee.Id }, new { style = "color:white" })</button></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+
+
+
+
+

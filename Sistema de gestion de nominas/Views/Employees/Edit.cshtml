@@ -4,7 +4,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Editar</h1>
+<h1>@{var text = Model.Id == 0 ? "Crear" : "Editar";} @text empleado </h1>
 @Html.ValidationSummary(true, "Please fix the following errors")
 
 @using (Html.BeginForm("Save", "Employees"))

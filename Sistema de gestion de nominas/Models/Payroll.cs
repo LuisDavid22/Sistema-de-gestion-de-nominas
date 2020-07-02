@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace Sistema_de_gestion_de_nominas.Models
 {
     public partial class Payroll
     {
         public int Id { get; set; }
+        [Display(Name ="Empleado")]
+        [Required]
         public int EmployeeId { get; set; }
         public decimal? GrossSalary { get; set; }
         public double? RetentionAfp { get; set; }

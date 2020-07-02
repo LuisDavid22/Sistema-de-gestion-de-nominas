@@ -1,0 +1,27 @@
+﻿@model Sistema_de_gestion_de_nominas.Models.PayrollViewModel
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Agregar a la nomina</h1>
+@Html.ValidationSummary(true, "Please fix the following errors")
+
+@using (Html.BeginForm("Save", "Payroll"))
+{
+<div class="container" style="width:600px;margin-left:0px">
+
+    <div class="form-group">
+        @Html.LabelFor(n => n.Payroll.EmployeeId)
+        @Html.DropDownListFor(n => n.Payroll.EmployeeId, new SelectList(Model.employeeList, "Id", "Name"), "Seleccione el empleado a agregar", new { @class = "form-control" })
+       
+    </div>
+
+
+    @*@Html.HiddenFor(e => e.Payroll.Id)*@
+    <button type="submit" class="btn btn-primary">Agregar a la nomina</button>
+
+
+</div>
+
+}

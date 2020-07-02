@@ -36,8 +36,9 @@ else
                     <td>@employee.Genre</td>
                     <td>@string.Format("{0:N0}", employee.GrossSalary) </td>
                     <td>@{var text = employee.Active ? "Si" : "No";} @text </td>
-                    <td><button class="btn btn-warning">@Html.ActionLink("Editar", "Edit", "Employees", new { id = employee.Id }, new { style = "color:white" })</button></td>
-                    <td><button class="btn btn-danger">@Html.ActionLink("Eliminar", "Delete", "Employees", new { id = employee.Id }, new { style = "color:white" })</button></td>
+                    <td><button class="btn btn-warning">@Html.ActionLink("Editar", "Edit", "Employees", new { id = employee.Id }, new { style = "color:white" })</button>
+                        <button class="btn btn-danger">@Html.ActionLink("Eliminar", "Delete", "Employees", new { id = employee.Id }, new { style = "color:white" })</button></td>
+                    
                 </tr>
             }
         </tbody>

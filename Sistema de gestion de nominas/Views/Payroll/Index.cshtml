@@ -5,12 +5,12 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Listado de empleados</h1>
+<h1>Detalle de la nomina</h1>
 <br />
-<button class="btn btn-primary">@Html.ActionLink("Crear Nomina", "Edit", "Payroll", new { id = 0 }, new { style = "color:white" })</button>
+<button class="btn btn-primary">@Html.ActionLink("Agregar empleado a la nomina", "Edit", "Payroll", new { id = 0 }, new { style = "color:white" })</button>
 @if (Model.Count() == 0)
 {
-    <h3>No hay ninguna nomina, @Html.ActionLink("crea una!", "Edit", "Payroll") </h3>
+    <h3>No hay ningun empleado en la nomina, @Html.ActionLink("agrega uno!","Edit", "Payroll") </h3>
 }
 else
 {
@@ -29,21 +29,24 @@ else
                 <th scope="col">Opciones</th>
             </tr>
         </thead>
-        @*<tbody>
-            @foreach (var employee in Model)
+        <tbody>
+            @foreach (var nomina in Model)
             {
                 <tr>
-                    <th>@employee.Id</th>
-                    <td>@employee.Name</td>
-                    <td>@employee.LastName</td>
-                    <td>@employee.Genre</td>
-                    <td>@string.Format("{0:N0}", employee.GrossSalary) </td>
-                    <td>@{var text = employee.Active ? "Si" : "No";} @text </td>
-                    <td><button class="btn btn-warning">@Html.ActionLink("Editar", "Edit", "Employees", new { id = employee.Id }, new { style = "color:white" })</button></td>
-                    <td><button class="btn btn-danger">@Html.ActionLink("Eliminar", "Delete", "Employees", new { id = employee.Id }, new { style = "color:white" })</button></td>
+                    <th>@nomina.Id</th>
+                    <td>@nomina.Employee.Name</td>
+                    <td>@string.Format("{0:N0}", nomina.GrossSalary)</td>
+                    <td>@string.Format("{0:N0}", nomina.RetentionAfp)</td>
+                    <td>@string.Format("{0:N0}", nomina.RetentionArs)</td>
+                    <td>@string.Format("{0:N0}", nomina.TaxableSalary)</td>
+                    <td>@string.Format("{0:N0}", nomina.RetentionIsr)</td>
+                    <td>@string.Format("{0:N0}", nomina.RetentionTotal)</td>
+                    <td>@string.Format("{0:N0}", nomina.NetIncome)</td>
+                    @*<td><button class="btn btn-warning">@Html.ActionLink("Editar", "Edit", "Employees", new { id = nomina.Id }, new { style = "color:white" })</button></td>*@
+                    <td><button class="btn btn-danger">@Html.ActionLink("Eliminar", "Delete", "Payroll", new { id = nomina.Id }, new { style = "color:white" })</button></td>
                 </tr>
             }
-        </tbody>*@
+        </tbody>
     </table>
 }
 

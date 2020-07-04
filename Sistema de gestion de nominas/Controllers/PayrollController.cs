@@ -14,14 +14,23 @@ namespace Sistema_de_gestion_de_nominas.Controllers
     public class PayrollController : Controller
     {
         // GET: Payroll
-        public ActionResult Index()
+        public ActionResult Index(string genre = "", bool isReport = false)
         {
             var listaNominas = new List<Payroll>();
             using(var db = new nominaDBContext())
             {
-                listaNominas = db.Payroll.Include(n => n.Employee).ToList();
+                if (genre != "" && genre != null)
+                {
+                    listaNominas = db.Payroll.Include(n => n.Employee).Where(p => p.Employee.Genre == genre).ToList();
+                }
+                else
+                {
+                    listaNominas = db.Payroll.Include(n => n.Employee).ToList();
+                }
+                
             }
-            return View(listaNominas);
+
+            return View(new PayrollIndexViewModel() { payrollList = listaNominas, IsReport = isReport});
         }
 
         // GET: Payroll/Details/5
@@ -61,8 +70,8 @@ namespace Sistema_de_gestion_de_nominas.Controllers
                 var viewModel = new PayrollViewModel()
                 {
                     Payroll = new Payroll(),
-                    employeeList = db.Employee.Include(e => e.Payroll).Where(e => e.Payroll.Count() == 0).ToList()
-                    
+                    employeeList = db.Employee.Include(e => e.Payroll).Where(e => e.Payroll.Count() == 0 && e.Active).ToList()
+
                 };
                 return View(viewModel);
             }
@@ -81,7 +90,7 @@ namespace Sistema_de_gestion_de_nominas.Controllers
                 {
                     var viewModel = new PayrollViewModel()
                     {
-                        employeeList = db.Employee.Include(e => e.Payroll).Where(e => e.Payroll.Count() == 0).ToList(),
+                        employeeList = db.Employee.Include(e => e.Payroll).Where(e => e.Payroll.Count() == 0 && e.Active).ToList(),
                         Payroll = payroll
                     };
                 return View("Edit",viewModel);

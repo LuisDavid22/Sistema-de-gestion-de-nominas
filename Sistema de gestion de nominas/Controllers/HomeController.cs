@@ -33,5 +33,9 @@ namespace Sistema_de_gestion_de_nominas.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+        public ActionResult Reportes()
+        {
+            return View();
+        }
     }
 }

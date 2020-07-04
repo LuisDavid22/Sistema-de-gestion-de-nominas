@@ -1,16 +1,45 @@
-﻿@model IEnumerable<Sistema_de_gestion_de_nominas.Models.Payroll>
+﻿@model Sistema_de_gestion_de_nominas.Models.PayrollIndexViewModel
 
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Detalle de la nomina</h1>
-<br />
-<button class="btn btn-primary">@Html.ActionLink("Agregar empleado a la nomina", "Edit", "Payroll", new { id = 0 }, new { style = "color:white" })</button>
-@if (Model.Count() == 0)
+@{
+    if (Model.IsReport)
+    {
+        <h1>Reporte de nomina</h1>
+        <br />
+
+        @using (Html.BeginForm("Index", "Payroll"))
+        {
+            <div class="form-group" style="float:right; width:120px; display:inline;">
+
+                @Html.Label("genre", "Genero")
+                @Html.DropDownList("genre", new List<SelectListItem>
+                 { new SelectListItem { Text = "Masculino", Value = "M"},
+                   new SelectListItem { Text = "Femenino", Value = "F"},
+                   }, "Genero", new { @class = "form-control" })
+
+               @Html.HiddenFor(p => p.IsReport)
+                <input type="submit" class="btn btn-dark" value="Filtrar" />
+            </div>
+        }
+    }
+    else
+    {
+        <h1>Administrar nomina</h1>
+        <br />
+        <button class="btn btn-primary">@Html.ActionLink("Agregar empleado a la nomina", "Edit", "Payroll", new { id = 0 }, new { style = "color:white" })</button>
+        <button class="btn btn-outline-danger">@Html.ActionLink("Inactivar nomina", "Edit", "Payroll", new { id = 0 })</button>
+    }
+}
+
+
+
+@if (Model.payrollList.Count() == 0)
 {
-    <h3>No hay ningun empleado en la nomina, @Html.ActionLink("agrega uno!","Edit", "Payroll") </h3>
+    <h3>No hay ningun empleado en la nomina, @Html.ActionLink("agrega uno!", "Edit", "Payroll") </h3>
 }
 else
 {
@@ -18,37 +47,45 @@ else
         <thead>
             <tr>
                 <th scope="col">Id</th>
-                <th scope="col">Empleado Id</th>
-                <th scope="col">Sueldo Bruto</th>
-                <th scope="col">AFP</th>
-                <th scope="col">ARS</th>
-                <th scope="col">Sueldo imponible</th>
-                <th scope="col">ISR</th>
-                <th scope="col">Total retencion</th>
-                <th scope="col">Sueldo neto</th>
-                <th scope="col">Opciones</th>
+                <th class="right" scope="col">Empleado</th>
+                <th class="right" scope="col">Sueldo Bruto</th>
+                <th class="right" scope="col">AFP</th>
+                <th class="right" scope="col">ARS</th>
+                <th class="right" scope="col">Sueldo imponible</th>
+                <th class="right" scope="col">ISR</th>
+                <th class="right" scope="col">Total retencion</th>
+                <th class="right" scope="col">Sueldo neto</th>
+               @if (!Model.IsReport)
+               { <th class="right" scope="col">Opciones</th>}
             </tr>
         </thead>
         <tbody>
-            @foreach (var nomina in Model)
+            @foreach (var nomina in Model.payrollList)
             {
                 <tr>
                     <th>@nomina.Id</th>
                     <td>@nomina.Employee.Name</td>
-                    <td>@string.Format("{0:N0}", nomina.GrossSalary)</td>
-                    <td>@string.Format("{0:N0}", nomina.RetentionAfp)</td>
-                    <td>@string.Format("{0:N0}", nomina.RetentionArs)</td>
-                    <td>@string.Format("{0:N0}", nomina.TaxableSalary)</td>
-                    <td>@string.Format("{0:N0}", nomina.RetentionIsr)</td>
-                    <td>@string.Format("{0:N0}", nomina.RetentionTotal)</td>
-                    <td>@string.Format("{0:N0}", nomina.NetIncome)</td>
+                    <td class="right">@string.Format("{0:N0}", nomina.GrossSalary)</td>
+                    <td class="right">@string.Format("{0:N0}", nomina.RetentionAfp)</td>
+                    <td class="right">@string.Format("{0:N0}", nomina.RetentionArs)</td>
+                    <td class="right">@string.Format("{0:N0}", nomina.TaxableSalary)</td>
+                    <td class="right">@string.Format("{0:N0}", nomina.RetentionIsr)</td>
+                    <td class="right">@string.Format("{0:N0}", nomina.RetentionTotal)</td>
+                    <td class="right">@string.Format("{0:N0}", nomina.NetIncome)</td>
                     @*<td><button class="btn btn-warning">@Html.ActionLink("Editar", "Edit", "Employees", new { id = nomina.Id }, new { style = "color:white" })</button></td>*@
-                    <td><button class="btn btn-danger">@Html.ActionLink("Eliminar", "Delete", "Payroll", new { id = nomina.Id }, new { style = "color:white" })</button></td>
+                  @if (!Model.IsReport)
+                  {<td><button class="btn btn-danger">@Html.ActionLink("Eliminar", "Delete", "Payroll", new { id = nomina.Id }, new { style = "color:white" })</button></td>}
                 </tr>
             }
         </tbody>
     </table>
 }
+
+<style>
+    td.right {
+        text-align: right;
+    }
+</style>
 
 
 

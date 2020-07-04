@@ -12,16 +12,26 @@ namespace Sistema_de_gestion_de_nominas.Controllers
     public class EmployeesController : Controller
     {
         // GET: Employees
-        public ActionResult Index()
+        public ActionResult Index(string active = "", bool isReport = false)
         {
+            
             var employeeList = new List<Employee>();
 
             using(var db = new nominaDBContext())
             {
+                if(active != "" && active != null)
+                {
+                    employeeList = db.Employee.Where(e => e.Active == (active == "1" ? true : false)).ToList();
+                }
+            
+                else
+                {
                 employeeList = db.Employee.ToList();
             }
+        }
+                
 
-            return View(employeeList);
+            return View(new EmployeeViewModel() { employeeList = employeeList, isReport = isReport});
         }
 
         // GET: Employees/Details/5
